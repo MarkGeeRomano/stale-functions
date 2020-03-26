@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { memo } from 'react';
 
-const Tile = ({
+const Tile = memo(({
   toggleFavorite,
   pokemon: { url, isFavorite },
 }) => {
@@ -15,6 +15,8 @@ const Tile = ({
       </div>
     </div>
   );
-};
+},
+  (oldProps, newProps) => oldProps.pokemon.isFavorite === newProps.pokemon.isFavorite
+);
 
 export default Tile;
