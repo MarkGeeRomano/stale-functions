@@ -1,24 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+
+import Tile from './Tile';
+import pokeUrls from './pokeImgUrls';
+
 import './App.css';
 
 function App() {
+  const [pokemon, setPokemon] = useState(pokeUrls.map(url => ({ url, isFavorite: false })))
+
+  const toggleFavorite = (i) => () => {
+    const updatedPokemon = { ...pokemon[i], isFavorite: !pokemon[i].isFavorite }
+    setPokemon([
+      ...pokemon.slice(0, i),
+      updatedPokemon,
+      ...pokemon.slice(i + 1)
+    ])
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {pokemon.map((p, i) => (
+        <Tile pokemon={p} toggleFavorite={toggleFavorite(i)}/>
+      ))}
     </div>
   );
 }
