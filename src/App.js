@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 
 import Tile from './Tile';
 import pokeUrls from './pokeImgUrls';
@@ -7,15 +7,11 @@ import './App.css';
 
 function App() {
   const [pokemon, setPokemon] = useState(pokeUrls.map(url => ({ url, isFavorite: false })))
-  const pokemonRef = useRef(pokemon)
-  pokemonRef.current = pokemon
 
   const toggleFavorite = (i) => () => {
-    const pokemon = pokemonRef.current
-    const updatedPokemon = { ...pokemon[i], isFavorite: !pokemon[i].isFavorite }
-    setPokemon([
+    setPokemon((pokemon) => [
       ...pokemon.slice(0, i),
-      updatedPokemon,
+      { ...pokemon[i], isFavorite: !pokemon[i].isFavorite },
       ...pokemon.slice(i + 1)
     ])
   }
